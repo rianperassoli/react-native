@@ -64,6 +64,24 @@ export default class FilmScreen extends Component {
     this.props.navigation.navigate('Home');
   }
 
+  excluir(id) {
+
+    db.transaction(tx => {
+      tx.executeSql('DELETE FROM filme WHERE id = ?', [id]);
+    });
+
+    this.props.navigation.navigate('Home');
+  }
+
+  atualizar(id) {
+
+    db.transaction(tx => {
+      tx.executeSql('UPDATE filme set descricao=?, imagem=? WHERE id = ?', [this.state.descricao, this.state.uri, id]);
+    });
+
+    this.props.navigation.navigate('Home');
+  }
+
   render() {
     return (
       <View style={styles.container}>

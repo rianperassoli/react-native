@@ -7,21 +7,46 @@ var db = openDatabase({ name: 'lapelicula.db' });
 
 
 //Component de Filmes
-class Filmes extends Component {
+class ItemFilme extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+    this.styles = StyleSheet.create({
+      image: {
+        height: 150
+      },
+      areaClick: {
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+        paddingLeft: 10,
+        paddingBottom: 10
+      },
+      description: {
+        fontSize: 23,
+        color: '#9304e0',
+        fontWeight: 'bold'
+      }
+    });
+
+    this.abrirTelaFilme = this.abrirTelaFilme.bind(this);
+  }
+
+  abrirTelaFilme() {
+     alert("Filme: " + JSON.stringify(this.props.navigation));
+    //this.props.navigation.navigate('Film');
+  }
+
   render() {
     return (
       <View >
-        <TouchableHighlight onPress={() => alert("Filme: " + this.props.data.descricao)} underlayColor="blue" >
+        <TouchableHighlight onPress={() => this.abrirTelaFilme()} underlayColor="blue" >
 
-          <ImageBackground resizeMode="cover" source={{ uri: this.props.data.imagem }} style={{ height: 150 }}>
-            <View style={{
-              flex: 1,
-              alignItems: 'flex-start',
-              justifyContent: 'flex-end',
-              paddingLeft: 10,
-              paddingBottom: 10
-            }}>
-              <Text style={{ fontSize: 23, color: '#FFFFFF', fontWeight: 'bold' }}>{this.props.data.descricao}</Text>
+          <ImageBackground resizeMode="cover" source={{ uri: this.props.data.imagem }} style={this.styles.image}>
+            <View style={this.styles.areaClick}>
+              <Text style={this.styles.description}>{this.props.data.descricao}</Text>
             </View>
           </ImageBackground>
         </TouchableHighlight>
@@ -74,7 +99,7 @@ export default class ListFilmScreen extends Component {
 
         <FlatList data={this.state.filmes}
           keyExtractor={item => item.codigo.toString()}
-          renderItem={({ item }) => <Filmes data={item} />}
+          renderItem={({ item }) => <ItemFilme data={item} />}
         />
 
       </View>
@@ -86,8 +111,6 @@ export default class ListFilmScreen extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#FFFFFF'
   },
   image: {

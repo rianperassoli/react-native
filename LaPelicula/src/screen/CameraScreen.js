@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, View, Image, Button } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 export default class CameraScreen extends Component {
