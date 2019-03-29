@@ -26,10 +26,19 @@ export default class AboutScreen extends Component {
     this.state = {};
 
     this.voltar = this.voltar.bind(this);
+    this.getText = this.getText.bind(this);
   }
 
   voltar() {
     this.props.navigation.goBack();
+  }
+  
+  getText() {
+    return `  Esta é uma aplicação com o objetivo de armazenar filmes e fazer de certa forma um histórico dos seus títulos preferidos.
+            
+Desenvolvido por Rian Perassoli
+Versão: 1.0.2
+`;
   }
 
   render() {
@@ -37,13 +46,25 @@ export default class AboutScreen extends Component {
 
       <View style={styles.main}>
 
-        <View style={styles.mainSpace}>
+        <View style={styles.mainSpaceHead}>
+
+          <Image
+            style={styles.logo}
+            source={require('../images/logo_512.png')} />
+
+          <Text style={styles.title}> La Película </Text>
 
         </View>
-        <Text>AboutScreen</Text>
+
+        <View style={styles.mainSpaceBody}>
+
+          <Text style={styles.description} > {this.getText()} </Text>
+
+        </View>
 
 
-        <LPButton style={styles.backButton} titulo="Voltar" onPress={() => { this.voltar() }} />
+
+        <LPButton titulo="Voltar" onPress={() => { this.voltar() }} />
       </View>
 
     );
@@ -52,21 +73,35 @@ export default class AboutScreen extends Component {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,    
     backgroundColor: '#FFFFFF'
   },
   image: {
     width: 26,
     height: 26,
   },
-  backButton: {
-    flex: 1,
-    backgroundColor: 'red'
+  mainSpaceHead: {
+    flex: 2,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  mainSpace: {
-    flex: 3,
-    backgroundColor: 'green'
+  mainSpaceBody: {
+    flex: 1,
+    backgroundColor: '#D8D8D8',
+    margin: 20,
+    padding: 20,
+    borderRadius: 15,
+  },
+  logo: {
+    width: 250,
+    height: 250
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  description: {
+    fontSize: 15,
+    fontStyle: 'italic'
   }
 });

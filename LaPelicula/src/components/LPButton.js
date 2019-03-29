@@ -16,21 +16,22 @@ export class LPButton extends Component {
       this.styles = StyleSheet.create({
         botao: {
           height: 50,
-          borderWidth: 2,
-          borderColor: 'white',
-          borderRadius: 15,          
-          backgroundColor: '#80ffdf'
+          borderWidth: 1,          
+          borderRadius: 5,
+          borderColor: '#9304e0',          
+          backgroundColor: '#FFFFFF',
+          margin: 2,
         },
         botaoArea: {
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',          
         },
         botaoTexto: {
           fontSize: 18,
           fontWeight: 'bold',
-          color: 'white'
+          color: '#9304e0'
         }
       });
     }

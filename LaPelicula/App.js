@@ -92,7 +92,7 @@ const AppTab = createBottomTabNavigator({
       activeTintColor: '#FFFFFF',
       inactiveTintColor: '#CCCCCC',
       style: {
-        backgroundColor: '#570076'
+        backgroundColor: '#9304e0'
       },
       indicatorStyle: {
         backgroundColor: null
@@ -125,7 +125,7 @@ export default App;
 /*
 
 Entregar, por e-mail, até o dia 01/04 as seguintes implementações no projeto LaPelicula:
-1) Implementar a tela do sobre;
+1) Implementar a tela do sobre; ok
 2) Implementar o editar de um filme;
 3) Implementar o excluir de um filme;
 4) Implementar a recuperar via http dados de um filme;
