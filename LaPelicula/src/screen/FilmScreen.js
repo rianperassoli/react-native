@@ -31,52 +31,77 @@ export default class FilmScreen extends Component {
   });
 
   componentDidMount() {
-    if (typeof this.props.navigation.state.params !== "undefined") {
+    alert('sad');
+    const { navigation } = this.props;
+
+    if (typeof navigation.state.params !== "undefined") {
       this.setState({
-        uri: this.props.navigation.state.params.imguri
+        uri: navigation.state.params.imguri
       })
     }
+
+    const codigo = navigation.getParam('codigo', null);
+    const descricao = navigation.getParam('descricao', '');
+    const imagem = navigation.getParam('imagem', null);
+    onSaved = navigation.getParam('onSaved');
+
+    this.setState({ codigo, descricao, imagem, onSaved });
+  }
+
+  componentWillReceiveProps(nextProps){
+    alert('sad22');
+    const { navigation } = nextProps;
+
+    if (typeof navigation.state.params !== "undefined") {
+      this.setState({
+        uri: navigation.state.params.imguri
+      })
+    }
+
+    const codigo = navigation.getParam('codigo', null);
+    const descricao = navigation.getParam('descricao', '');
+    const imagem = navigation.getParam('imagem', null);
+    onSaved = navigation.getParam('onSaved');
+
+    this.setState({ codigo, descricao, imagem, onSaved });
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      descricao: '',
-      uri: null
-    };
+
+    this.state = { codigo: null, descricao: '', imagem: null, onSaved: null };
 
     this.abrirCamera = this.abrirCamera.bind(this);
     this.salvar = this.salvar.bind(this);
+    this.atualizar = this.atualizar.bind(this);
+    this.salvarClick = this.salvarClick.bind(this);
   }
-
 
   abrirCamera() {
 
-    this.props.navigation.navigate('Camera');
+    this.props.navigation.navigate('Camera', this.state);
+  }
+
+  salvarClick() {
+    this.state.codigo ? this.atualizar() : this.salvar();    
+
+    this.state.onSaved();
+
+    this.setState({ codigo: null, descricao: '', imagem: null, onSaved: null });
+
+    this.props.navigation.navigate('Home');
   }
 
   salvar() {
-
     db.transaction(tx => {
-      tx.executeSql('INSERT INTO filme(descricao, imagem) values (?, ?)', [this.state.descricao, this.state.uri]);
+      tx.executeSql('INSERT INTO filme(descricao, imagem) values (?, ?)', [this.state.descricao, this.state.imagem]);
     });
-
-    this.props.navigation.navigate('Home');
   }
 
-  excluir(id) {
+  atualizar() {
 
     db.transaction(tx => {
-      tx.executeSql('DELETE FROM filme WHERE id = ?', [id]);
-    });
-
-    this.props.navigation.navigate('Home');
-  }
-
-  atualizar(id) {
-
-    db.transaction(tx => {
-      tx.executeSql('UPDATE filme set descricao=?, imagem=? WHERE id = ?', [this.state.descricao, this.state.uri, id]);
+      tx.executeSql('UPDATE filme set descricao=?, imagem=? WHERE codigo = ?', [this.state.descricao, this.state.imagem, this.state.codigo]);
     });
 
     this.props.navigation.navigate('Home');
@@ -88,7 +113,7 @@ export default class FilmScreen extends Component {
         <View style={styles.areaFoto}>
 
           <View style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Image source={{ uri: this.state.uri }} style={{ backgroundColor: 'blue', justifyContent: 'center', alignItems: 'flex-start', width: 150, height: 150, marginBottom: 40 }} />
+            <Image source={{ uri: this.state.imagem }} style={{ backgroundColor: 'blue', justifyContent: 'center', alignItems: 'flex-start', width: 150, height: 150, marginBottom: 40 }} />
           </View>
 
           <View style={{ width: 50, heigth: 50 }}>
@@ -103,18 +128,28 @@ export default class FilmScreen extends Component {
         <View style={styles.areaInput}>
           <TextInput style={styles.inputText}
             multiline={true} placeholder='Descrição'
+            value={this.state.descricao}
             onChangeText={(valor) => this.setState({ descricao: valor })} />
         </View>
 
         <View style={styles.areaBotao}>
+
           <View style={{ flex: 1 }}>
-            <LPButton titulo='Salvar' onPress={() => this.salvar()} />
+
+            <LPButton
+              titulo='Salvar'
+              onPress={() => this.salvarClick()} />
+
           </View>
 
           <View style={{ flex: 1 }}>
-            <LPButton titulo='Cancelar'
+
+            <LPButton
+              titulo='Cancelar'
               onPress={() => this.props.navigation.navigate('Home')} />
+
           </View>
+
         </View>
       </View >
     );

@@ -9,16 +9,18 @@ export default class CameraScreen extends Component {
   });
 
   constructor(props) {
-    super(props);
+    super(props);    
 
-    this.state = {
-      uri: null
-    }
+    const codigo = props.navigation.getParam('codigo', null);
+    const descricao = props.navigation.getParam('descricao', '');
+    const imagem = props.navigation.getParam('imagem', null);
+
+    this.state = { codigo, descricao, imagem };
 
     this.capturarFoto = this.capturarFoto.bind(this);
   }
 
-  capturarFoto = async () => {
+  async capturarFoto() {
 
     if (this.camera) {
 
@@ -29,11 +31,7 @@ export default class CameraScreen extends Component {
 
       const data = await this.camera.takePictureAsync(options);
 
-      let state = this.state;
-      state.uri = data.uri;
-
-      this.setState(state);
-
+      this.setState({imagem: data.uri });
     }
 
   }
@@ -65,16 +63,16 @@ export default class CameraScreen extends Component {
 
           <Image
             style={styles.capturedImage}
-            source={{ uri: this.state.uri }} />
+            source={{ uri: this.state.imagem }} />
 
           <View style={{ flexDirection: 'row' }}>
 
             <Button title="OK" onPress={
-              () => this.props.navigation.navigate('Film', { imguri: this.state.uri })
+              () => this.props.navigation.navigate('Film', this.state)
             } />
 
             <Button title="Cancel" onPress={
-              () => this.props.navigation.navigate('Film')
+              () => this.props.navigation.navigate('Film', this.state)
             } />
 
           </View>
