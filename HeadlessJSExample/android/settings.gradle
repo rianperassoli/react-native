@@ -1,3 +1,0 @@
-rootProject.name = 'HeadlessJSExample'
-
-include ':app'
